@@ -4,16 +4,22 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"log"
 
 	"github.com/matt-major/imgit/adaptors/tinypng"
 )
 
 func main() {
+	var tinyPngKey = os.Getenv("IMGIT_TINY_KEY")
+	
+	if tinyPngKey == "" {
+		log.Fatal("No TinyPNG API Key. Please export IMGIT_TINY_KEY=api:<api_key> and try again.")
+	}
+
 	imageFile, err := os.Open("test.png")
 	
 	if err != nil {
-		fmt.Println("Failed to open image!")
-		fmt.Println(err)
+		log.Printf("Failed to load image file. %s", err)
 	}
 	
 	defer imageFile.Close()
